@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 from configs import configure_argument_parser, configure_logging
-from constants import BASE_DIR, MAIN_DOC_URL, PEP_URL
+from constants import BASE_DIR, MAIN_DOC_URL, PEP_URL, EXPECTED_STATUS
 from outputs import control_output
 from utils import error, find_tag, get_response
 
@@ -23,7 +23,7 @@ def whats_new(session):
     div_with_ul = find_tag(main_div, 'div', attrs={'class': 'toctree-wrapper'})
     sections_by_python = div_with_ul.find_all('li',
                                               attrs={'class': 'toctree-l1'})
-    results = [('Ссылка на статью', 'Заголовок', 'Редактор, автор')]
+    results = [('Ссылка на статью', 'Заголовок', 'Редактор, Автор')]
     for section in tqdm(sections_by_python):
         version_a_tag = section.find('a')
         href = version_a_tag['href']
@@ -91,16 +91,6 @@ def pep(session):
             name_status = status.find_next_sibling()
             text_name_status = name_status.text
             list_status.append(text_name_status)
-            EXPECTED_STATUS = {
-                'A': ['Active', 'Accepted'],
-                'D': ['Deferred'],
-                'F': ['Final'],
-                'P': ['Provisional'],
-                'R': ['Rejected'],
-                'S': ['Superseded'],
-                'W': ['Withdrawn'],
-                '': ['Draft', 'Active'],
-            }
         td_tag = tag.find('td')
         if td_tag is not None:
             error(text_name_status, EXPECTED_STATUS, link, td_tag)
