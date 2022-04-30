@@ -7,9 +7,9 @@ charset-normalizer==2.0.12
 colorama==0.4.4
 idna==3.3
 lxml==4.8.0
-prettytable==2.1.0
+prettytable==3.2.0
 requests==2.27.1
-requests-cache==0.9.3
+requests-cache==0.9.4
 six==1.16.0
 soupsieve==2.3.2.post1
 tqdm==4.64.0

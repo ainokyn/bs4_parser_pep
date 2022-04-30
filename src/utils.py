@@ -1,7 +1,9 @@
 import logging
 
 from requests import RequestException
-from exceptions import ParserFindTagException, ParserFindStatusException
+
+from exceptions import ParserFindStatusException, ParserFindTagException
+
 
 def get_response(session, url):
     try:
@@ -13,6 +15,8 @@ def get_response(session, url):
             f'Возникла ошибка при загрузке страницы {url}',
             stack_info=True
         )
+
+
 def find_tag(soup, tag, attrs=None):
     searched_tag = soup.find(tag, attrs=(attrs or {}))
     if searched_tag is None:
@@ -20,6 +24,7 @@ def find_tag(soup, tag, attrs=None):
         logging.error(error_msg, stack_info=True)
         raise ParserFindTagException(error_msg)
     return searched_tag
+
 
 def error(text_name_status, dic,  link, td_tag):
     status_in_table = status_in_table = td_tag.text[1:]
